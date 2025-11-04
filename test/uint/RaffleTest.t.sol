@@ -17,7 +17,6 @@ contract RaffleTest is Test, CodeConstants {
     bytes32 gasLane;
     uint32 callbackGasLimit;
     uint256 subscriptionId;
-    
 
     address public PLAYER = makeAddr("player");
     uint256 public constant STARTING_PLAYER_BALANCE = 10 ether;
@@ -120,7 +119,7 @@ contract RaffleTest is Test, CodeConstants {
         assert(!upkeepNeeded);
     }
 
-     function testCheckUpkeepReturnsFalseIfRaffleIsntOpen() public {
+    function testCheckUpkeepReturnsFalseIfRaffleIsntOpen() public {
         // Arrange
         vm.prank(PLAYER);
         raffle.enterRaffle{value: entranceFee}();
@@ -201,7 +200,8 @@ contract RaffleTest is Test, CodeConstants {
         vm.recordLogs();
         raffle.performUpkeep(""); // emits requestId
         Vm.Log[] memory entries = vm.getRecordedLogs();
-        bytes32 requestId = entries[1].topics[1];
+        // requestId is the first uint256 in the event data (not indexed)
+        bytes32 requestId = bytes32(abi.decode(entries[0].data, (uint256)));
 
         // Assert
         Raffle.RaffleState raffleState = raffle.getRaffleState();
@@ -259,10 +259,11 @@ contract RaffleTest is Test, CodeConstants {
         vm.recordLogs();
         raffle.performUpkeep(""); // emits requestId
         Vm.Log[] memory entries = vm.getRecordedLogs();
-        console2.logBytes32(entries[1].topics[1]);
-        bytes32 requestId = entries[1].topics[1]; // get the requestId from the logs
+        // requestId is the first uint256 in the event data (not indexed)
+        uint256 requestId = abi.decode(entries[0].data, (uint256));
+        console2.log("requestId: ", requestId);
 
-        VRFCoordinatorV2_5Mock(vrfCoordinatorV2_5).fulfillRandomWords(uint256(requestId), address(raffle));
+        VRFCoordinatorV2_5Mock(vrfCoordinatorV2_5).fulfillRandomWords(requestId, address(raffle));
 
         // Assert
         address recentWinner = raffle.getRecentWinner();
@@ -276,5 +277,4 @@ contract RaffleTest is Test, CodeConstants {
         assert(winnerBalance == startingBalance + prize);
         assert(endingTimeStamp > startingTimeStamp);
     }
-
 }
