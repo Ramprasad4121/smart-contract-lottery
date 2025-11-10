@@ -17,7 +17,6 @@ contract RaffleTest is Test, CodeConstants {
     bytes32 gasLane;
     uint32 callbackGasLimit;
     uint256 subscriptionId;
-    
 
     address public PLAYER = makeAddr("player");
     uint256 public constant STARTING_PLAYER_BALANCE = 10 ether;
@@ -120,7 +119,7 @@ contract RaffleTest is Test, CodeConstants {
         assert(!upkeepNeeded);
     }
 
-     function testCheckUpkeepReturnsFalseIfRaffleIsntOpen() public {
+    function testCheckUpkeepReturnsFalseIfRaffleIsntOpen() public {
         // Arrange
         vm.prank(PLAYER);
         raffle.enterRaffle{value: entranceFee}();
@@ -276,5 +275,4 @@ contract RaffleTest is Test, CodeConstants {
         assert(winnerBalance == startingBalance + prize);
         assert(endingTimeStamp > startingTimeStamp);
     }
-
 }

@@ -1,134 +1,212 @@
-# smart-contract-lottery
+# Smart Contract Lottery
 
-## Requirements
+<!-- <div align="center">
+  <a href="https://github.com/Ramprasad4121/smart-contract-lottery">
+    <img src="docs/images/lottery-banner.png" alt="Lottery Banner" width="600" height="300">
+  </a>
+</div> -->
 
-- [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-  - You'll know you did it right if you can run `git --version` and you see a response like `git version x.x.x`
-- [foundry](https://getfoundry.sh/)
-  - You'll know you did it right if you can run `forge --version` and you see a response like `forge 0.2.0 (816e00b 2023-03-16T00:05:26.396218Z)`
+<div align="center">
+  Decentralized Lottery with Chainlink VRF & Automation
+  <br />
+  <a href="#about"><strong>Explore the demo »</strong></a>
+  <br />
+  <br />
+  <a href="https://github.com/Ramprasad4121/smart-contract-lottery/issues/new?assignees=&labels=bug&template=01_BUG_REPORT.md&title=bug%3A+">Report a Bug</a>
+  ·
+  <a href="https://github.com/Ramprasad4121/smart-contract-lottery/issues/new?assignees=&labels=enhancement&template=02_FEATURE_REQUEST.md&title=feat%3A+">Request a Feature</a>
+  ·
+  <a href="https://github.com/Ramprasad4121/smart-contract-lottery/issues/new?assignees=&labels=question&template=04_SUPPORT_QUESTION.md&title=support%3A+">Ask a Question</a>
+</div>
 
-## Quickstart
+<div align="center">
+<br />
 
-```
-git clone https://github.com/Ramprasad4121/smart-contract-lottery.git
-cd smart-contract-lottery
-forge build
-```
+[![Solidity](https://img.shields.io/badge/Solidity-^0.8.20-blue)](https://soliditylang.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-### Optional Gitpod
+</div>
 
-If you can't or don't want to run and install locally, you can work with this repo in Gitpod. If you do this, you can skip the `clone this repo` part.
+<details open="open">
+<summary>Table of Contents</summary>
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#github.com/Cyfrin/smart-contract-lottery)
+- [Smart Contract Lottery](#smart-contract-lottery)
+  - [About](#about)
+    - [Built With](#built-with)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [Usage](#usage)
+    - [Local Development](#local-development)
+    - [Testnet Deployment (Sepolia)](#testnet-deployment-sepolia)
+    - [Testing](#testing)
+    - [Interactions](#interactions)
+    - [Other Commands](#other-commands)
+  - [Roadmap](#roadmap)
+  - [Support](#support)
+  - [Project Assistance](#project-assistance)
+  - [Contributing](#contributing)
+  - [Authors \& Contributors](#authors--contributors)
+  - [Security](#security)
+  - [License](#license)
+  - [Acknowledgements](#acknowledgements)
 
-# Usage
+</details>
 
-## Start a local node
+---
 
-```
-make anvil
-```
+## About
 
-## Library
+A decentralized lottery smart contract on Ethereum. Users enter by sending 0.1 ETH; Chainlink VRF ensures fair random winner selection, automated via Chainlink Automation. Built for secure, verifiable lotteries with Foundry for easy testing and deployment.
 
-If you're having a hard time installing the chainlink library, you can optionally run this command. 
+Why this? To demonstrate Chainlink integrations for randomness and automation in a gamified dApp.
 
-```
-forge install smartcontractkit/chainlink-brownie-contracts@0.6.1 --no-commit
-```
+<!-- <details>
+<summary>Screenshots</summary>
+<br>
 
-## Deploy
+|                               Local Deployment Console                               |                               Enter Raffle Transaction                               |
+| :-------------------------------------------------------------------: | :--------------------------------------------------------------------: |
+| <img src="docs/images/deploy-local.png" title="Anvil Deployment" width="100%"> | <img src="docs/images/enter-raffle.png" title="Enter Raffle" width="100%"> |
 
-This will default to your local node. You need to have it running in another terminal in order for it to deploy.
+> Add screenshots of `make deploy` output and `cast send` transaction.
 
-```
-make deploy
-```
+</details> -->
 
-## Deploy - Other Network
+### Built With
 
-[See below](#deployment-to-a-testnet-or-mainnet)
+- [Foundry](https://book.getfoundry.sh/) – Forge, Cast, Anvil
+- [Chainlink VRF & Automation](https://chain.link/) – Randomness & upkeep
+- Solidity ^0.8.20
+- [Make](https://www.gnu.org/software/make/) – Task automation
 
+## Getting Started
 
+### Prerequisites
 
-```
-forge test
-```
+- Git (`git --version`)
+- Foundry (`curl -L https://foundry.paradigm.xyz | bash && foundryup`; `forge --version`)
 
-or
+### Installation
 
-```
-forge test --fork-url $SEPOLIA_RPC_URL
-```
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/Ramprasad4121/smart-contract-lottery.git
+   cd smart-contract-lottery
+   ```
 
-### Test Coverage
+2. Build:
+   ```bash
+   forge build
+   ```
 
-```
-forge coverage
-```
+3. Install Chainlink libs (optional):
+   ```bash
+   forge install smartcontractkit/chainlink-brownie-contracts@0.6.1 --no-commit
+   ```
 
-# Deployment to a testnet or mainnet
+4. Copy `.env.example` to `.env` and set vars: `PRIVATE_KEY`, `SEPOLIA_RPC_URL`, `ETHERSCAN_API_KEY` (optional).
 
-1. Setup environment variables
+## Usage
 
-You'll want to set your `SEPOLIA_RPC_URL` and `PRIVATE_KEY` as environment variables. You can add them to a `.env` file, similar to what you see in `.env.example`.
+### Local Development
 
-- `PRIVATE_KEY`: The private key of your account (like from [metamask](https://metamask.io/)). **NOTE:** FOR DEVELOPMENT, PLEASE USE A KEY THAT DOESN'T HAVE ANY REAL FUNDS ASSOCIATED WITH IT.
-  - You can [learn how to export it here](https://metamask.zendesk.com/hc/en-us/articles/360015289632-How-to-Export-an-Account-Private-Key).
-- `SEPOLIA_RPC_URL`: This is url of the sepolia testnet node you're working with. You can get setup with one for free from [Alchemy](https://alchemy.com/?a=673c802981)
+- Start Anvil:
+  ```bash
+  make anvil
+  ```
 
-Optionally, add your `ETHERSCAN_API_KEY` if you want to verify your contract on [Etherscan](https://etherscan.io/).
+- Deploy:
+  ```bash
+  make deploy
+  ```
 
-1. Get testnet ETH
+### Testnet Deployment (Sepolia)
 
-Head over to [faucets.chain.link](https://faucets.chain.link/) and get some testnet ETH. You should see the ETH show up in your metamask.
+1. Get test ETH: [Chainlink Faucet](https://faucets.chain.link/).
+2. Deploy:
+   ```bash
+   make deploy ARGS="--network sepolia"
+   ```
+   *Auto-creates VRF subscription; update in `scripts/HelperConfig.s.sol` if reusing.*
 
-2. Deploy
+3. Register Automation: Visit [Chainlink Automation](https://automation.chain.link/new), select "Custom logic".
 
-```
-make deploy ARGS="--network sepolia"
-```
+### Testing
 
-This will setup a ChainlinkVRF Subscription for you. If you already have one, update it in the `scripts/HelperConfig.s.sol` file. It will also automatically add your contract as a consumer.
+- Unit tests:
+  ```bash
+  forge test
+  ```
 
-3. Register a Chainlink Automation Upkeep
+- Forked tests:
+  ```bash
+  forge test --fork-url $SEPOLIA_RPC_URL
+  ```
 
-[You can follow the documentation if you get lost.](https://docs.chain.link/chainlink-automation/compatible-contracts)
+- Coverage:
+  ```bash
+  forge coverage --report lcov
+  ```
 
-Go to [automation.chain.link](https://automation.chain.link/new) and register a new upkeep. Choose `Custom logic` as your trigger mechanism for automation. Your UI will look something like this once completed:
+### Interactions
 
-![Automation](./img/automation.png)
+- Enter raffle (0.1 ETH):
+  ```bash
+  cast send <CONTRACT_ADDRESS> "enterRaffle()" --value 0.1ether --private-key $PRIVATE_KEY --rpc-url $SEPOLIA_RPC_URL
+  ```
 
-## Scripts
+- Create VRF subscription:
+  ```bash
+  make createSubscription ARGS="--network sepolia"
+  ```
 
-After deploying to a testnet or local net, you can run the scripts.
+### Other Commands
 
-Using cast deployed locally example:
+- Format: `forge fmt`
+- Gas snapshot: `forge snapshot`
+- Clean: `make clean`
 
-```
-cast send <RAFFLE_CONTRACT_ADDRESS> "enterRaffle()" --value 0.1ether --private-key <PRIVATE_KEY> --rpc-url $SEPOLIA_RPC_URL
-```
+## Roadmap
 
-or, to create a ChainlinkVRF Subscription:
+See [open issues](https://github.com/Ramprasad4121/smart-contract-lottery/issues) for features and bugs.
 
-```
-make createSubscription ARGS="--network sepolia"
-```
+- [Top Enhancements](https://github.com/Ramprasad4121/smart-contract-lottery/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc) (👍 vote)
+- [Top Bugs](https://github.com/Ramprasad4121/smart-contract-lottery/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc) (👍 vote)
 
-## Estimate gas
+Future: Multi-chain support, frontend UI.
 
-You can estimate how much gas things cost by running:
+## Support
 
-```
-forge snapshot
-```
+- [GitHub Issues](https://github.com/Ramprasad4121/smart-contract-lottery/issues/new?assignees=&labels=question&template=04_SUPPORT_QUESTION.md&title=support%3A+)
+- [X](https://x.com/0xramprasad) – Quick queries
 
-And you'll see an output file called `.gas-snapshot`
+## Project Assistance
 
-# Formatting
+- ⭐ [Star](https://github.com/Ramprasad4121/smart-contract-lottery)
+- Tweet: "Fair lottery with Chainlink VRF! #Ethereum #Solidity"
+- Blog on [Dev.to](https://dev.to/)
 
-To run code formatting:
+## Contributing
 
-```
-forge fmt
-```
+Fork, create branch (`git checkout -b feature/xyz`), commit, PR. See [CONTRIBUTING.md](docs/CONTRIBUTING.md).
+
+## Authors & Contributors
+
+- [Ramprasad4121](https://github.com/Ramprasad4121)
+
+See [contributors](https://github.com/Ramprasad4121/smart-contract-lottery/contributors).
+
+## Security
+
+Uses audited Chainlink code; review for production. Report via [SECURITY.md](docs/SECURITY.md). Provided "as is."
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
+
+## Acknowledgements
+
+- [Chainlink](https://chain.link/) – VRF & Automation
+- [Foundry](https://getfoundry.sh/) – Development toolkit
+- Ethereum community inspirations.
