@@ -96,10 +96,15 @@ contract Raffle is VRFConsumerBaseV2Plus {
      * @return upkeepNeeded - true if its time to restart the lottery
      * @return - ignored
      */
-    function checkUpkeep(bytes memory /*check data */)
+    function checkUpkeep(
+        bytes memory /*check data */
+    )
         public
         view
-        returns (bool upkeepNeeded, bytes memory /* performData */)
+        returns (
+            bool upkeepNeeded,
+            bytes memory /* performData */
+        )
     {
         bool timeHasPassed = ((block.timestamp - s_lastTimeStamp) >= i_interval);
         bool isOpen = s_raffleState == RaffleState.OPEN;
@@ -112,7 +117,11 @@ contract Raffle is VRFConsumerBaseV2Plus {
     //1. Get a random number
     //2. use that number to pick a winner
     //3. Be automacally called
-    function performUpkeep(bytes calldata /* performData */) external {
+    function performUpkeep(
+        bytes calldata /* performData */
+    )
+        external
+    {
         (bool upkeepNeeded,) = checkUpkeep("");
         // require(upkeepNeeded, "Upkeep not needed");
         if (!upkeepNeeded) {
